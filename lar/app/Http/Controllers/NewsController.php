@@ -11,8 +11,12 @@ class NewsController extends Controller
 
     private function parseKeywords($keys)
     {
-        return preg_split('/(,\s*|;\s*|\s)/', $keys);
+        if (strlen($keys) > 0) {
+            return preg_split('/(,\s*|;\s*|\s)/', $keys);
+        }
+        return '';
     }
+
     /**
      * подготовка новости для вывода
      */
@@ -81,7 +85,6 @@ class NewsController extends Controller
             'content' => 'required'
         ]);
         $arr = request()->toArray();
-        $arr['public'] = $arr['public'] || strtolower($arr['public']) === 'true' ? 1 : 0;
         $arr['slug'] = News::getSlug(request('title'));
         try {
             $new = News::create($arr);
@@ -101,15 +104,14 @@ class NewsController extends Controller
             'content' => 'required'
         ]);
         $arr = request()->toArray();
-        $arr['public'] = $arr['public'] || strtolower($arr['public']) === 'true' ? 1 : 0;
-        $arr['slug'] = News::getSlug(request('title'));
+        $arr['slug'] = News::getSlug(request('title'), $id);
         try {
             $new = News::find($id);
             $new->fill($arr);
             $new->save();
             return $new;
         } catch (\Exception $exc) {
-            return response()->json(['errors' => $exc->getMessage()], 500);
+            return response()->json(['error' => $exc->getMessage()], 500);
         }
     }
 }

@@ -12,12 +12,15 @@ class News extends Model
     /**
      * возвращает уникальный слуг
      */
-    public static function getSlug($title)
+    public static function getSlug($title, $id = null)
     {
         $slug = (new \Slug())->make($title);
         $patt = '/\d+$/';
-        $slret = preg_replace($patt, '', $slug); 
-        $slugs = self::select('slug')->where('slug', 'like', $slret . '%')->get()->toArray();
+        $slret = preg_replace($patt, '', $slug);
+        if (strlen($slret) == 0) $slret = $slug;
+        $dop = '';
+        if (isset($id)) $dop = ' and id != ' . $id;
+        $slugs = self::select('slug')->whereRaw('slug like \'' . $slret . '%\'' . $dop)->get()->toArray();
         if (!empty($slugs)) {
             $arrs = [];
             foreach ($slugs as $sl) {
@@ -27,5 +30,12 @@ class News extends Model
             return $slret . (max($arrs) + 1);
         }
         return $slug;
+    }
+
+    public function setPublicAttribute($value)
+    {
+        $pub = 0;
+        if ($value || $value == 'true') $pub = 1;
+        $this->attributes['public'] = $pub;
     }
 }

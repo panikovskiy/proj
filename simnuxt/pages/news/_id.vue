@@ -1,7 +1,7 @@
 <template>
   <section class="section">
     <div class="tile is-ancestor">
-      <div class="tile is-vertical is-3">
+      <div class="tile is-vertical is-3" v-show="news.image">
         <div class="tile">
           <div class="tile is-parent is-vertical">
             <article class="tile is-child notification is-white">
