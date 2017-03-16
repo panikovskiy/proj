@@ -30,7 +30,7 @@
 </template>
 
 <script>
-  import axios from '~plugins/axios'
+  import '~plugins/axios'
   export default {
     data (context) {
       return {
@@ -39,7 +39,7 @@
       }
     },
     mounted () {
-      axios.get('/news/' + this.id + '?edit=1')
+      this.$axios.get('/news/' + this.id + '?edit=1')
         .then(({data}) => {
           this.news = data
         })

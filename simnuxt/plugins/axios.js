@@ -1,5 +1,8 @@
+import Vue from 'vue'
 import axios from 'axios'
 
-export default axios.create({
+let axiosInit = axios.create({
   baseURL: process.env.baseUrl
 })
+
+Vue.prototype.$axios = axiosInit

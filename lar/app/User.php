@@ -79,7 +79,7 @@ class User extends Authenticatable
                 $user->active = self::STATUS_ACTIVE;
                 $user->save();
             }
-            return $user->server_key;
+            return $user;
         } catch(\Exception $exc) {
             throw $exc;
         }

@@ -21,7 +21,7 @@
     },
     methods: {
       afterSubmit (data) {
-        this.$store.dispatch('setKey', {serverKey: data.server_key})
+        this.$store.dispatch('auth/setKey', {serverKey: data.server_key, user: data.user})
         this.$router.push('/' + this.back)
       }
     }

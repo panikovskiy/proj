@@ -52,7 +52,7 @@
 </template>
 
 <script>
-  import axios from '~plugins/axios'
+  import '~plugins/axios'
   export default {
     data () {
       return {
@@ -81,7 +81,7 @@
       },
       deleteNews (id) {
         if (id && confirm('Удалить новость?')) {
-          axios.delete('/news/' + id, {data: {server_key: this.$store.state.server_key}})
+          this.$axios.delete('/news/' + id, {data: {server_key: this.$store.state.auth.server_key}})
           .then(({data}) => {
             if (data.removed) {
               this.removeFromList(data.removed)
@@ -97,7 +97,7 @@
       },
       uploadNews (page) {
         let strpage = page ? '&page=' + page : ''
-        axios.get('/adminnews?server_key=' + this.$store.state.server_key + strpage)
+        this.$axios.get('/adminnews?server_key=' + this.$store.state.auth.server_key + strpage)
           .then(({data}) => {
             this.newsList = data.data
             this.nextPageUrl = data.next_page_url ? data.next_page_url.match('(page=)(\\d+)')[0] : ''

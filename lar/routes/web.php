@@ -7,6 +7,7 @@ Route::get('/', function () {
 Route::post('/auth/registration', 'AuthController@registration');
 Route::post('/auth/check', 'AuthController@check');
 Route::post('/auth/auth', 'AuthController@auth');
+Route::get('/auth/auth', 'AuthController@getUser');
 
 Route::get('/news', 'NewsController@getList');
 Route::get('/news/{id}', 'NewsController@getItem');

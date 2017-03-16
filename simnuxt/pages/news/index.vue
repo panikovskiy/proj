@@ -32,7 +32,7 @@
 </template>
 
 <script>
-  import axios from '~plugins/axios'
+  import '~plugins/axios'
   export default {
     data () {
       return {
@@ -54,7 +54,7 @@
       },
       updateNews (page) {
         let strpage = page ? '?page=' + page : ''
-        axios.get('/news' + strpage)
+        this.$axios.get('/news' + strpage)
           .then(({data}) => {
             this.newsList = data.data
             this.nextPageUrl = data.next_page_url ? data.next_page_url.match('(page=)(\\d+)')[0] : ''

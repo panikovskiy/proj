@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AuthController extends Controller
 {
@@ -41,10 +42,11 @@ class AuthController extends Controller
         $key = md5($email . date('d.m.Y'));
         if ($key === request('key')) {
             try {
-                if ($server_key = User::setActiveByEmail($email)) {
+                if ($user = User::setActiveByEmail($email)) {
                     return response()->json([
                         'message' => 'Пользователь удачно зарегистрирован',
-                        'server_key' => $server_key
+                        'server_key' => $user->server_key,
+                        'user' => ['username' => $user->username, 'ugroup' => $user->ugroup]
                     ], 200);
                 }
             } catch(\Exception $exc) {
@@ -72,9 +74,28 @@ class AuthController extends Controller
             if ($user->active == User::STATUS_INACTIVE) {
                 return response()->json(['error' => 'Пользователь не активирован'], 406);
             }
-            return response()->json(['server_key' => $user->server_key], 200);
+            return response()->json([
+                'server_key' => $user->server_key,
+                'user' => ['username' => $user->username, 'ugroup' => $user->ugroup]
+            ], 200);
         } catch(\Exception $exc) {
             return response()->json(['error' => $exc->getMessage()], 500);
+        }
+    }
+
+    /**
+     * возвращает пользователя по server_key
+     */
+    public function getUser()
+    {
+        $this->validate(request(), [
+            'server_key' => 'required'
+        ]);
+        try {
+            $user = User::where('server_key', '=', request('server_key'))->firstOrFail();
+            return response()->json(['username' => $user->username, 'ugroup' => $user->ugroup], 200);
+        } catch (ModelNotFoundException $ex) {
+            return response()->json(['error' => 'Пользователь не найден'], 404);
         }
     }
 }

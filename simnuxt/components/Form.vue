@@ -37,7 +37,7 @@
   </div>
 </template>
 <script>
-  import axios from '~plugins/axios'
+  import '~plugins/axios'
   export default {
     props: {
       'fields': {type: Array},
@@ -58,8 +58,8 @@
         for (let idx in this.fields) {
           result[this.fields[idx].name] = this.fields[idx].value
         }
-        if (this.$store.state.server_key) {
-          result.server_key = this.$store.state.server_key
+        if (this.$store.state.auth.server_key) {
+          result.server_key = this.$store.state.auth.server_key
         }
         return result
       },
@@ -69,7 +69,7 @@
         }
       },
       onSubmit () {
-        axios.post(this.action, this.getData())
+        this.$axios.post(this.action, this.getData())
           .then(response => {
             this.onSuccess(response.data)
           })

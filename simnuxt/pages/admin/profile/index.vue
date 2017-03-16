@@ -12,7 +12,7 @@
 
 <script>
   import MyForm from '~components/Form.vue'
-  import axios from '~plugins/axios'
+  import '~plugins/axios'
   export default {
     data () {
       return {
@@ -30,8 +30,8 @@
       MyForm
     },
     mounted () {
-      let skey = this.$store.state.server_key ? '?server_key=' + this.$store.state.server_key : ''
-      axios.get('user/profile' + skey)
+      let skey = this.$store.state.auth.server_key ? '?server_key=' + this.$store.state.auth.server_key : ''
+      this.$axios.get('user/profile' + skey)
         .then(({data}) => {
           for (let key in data) {
             let fl = this.fields.length

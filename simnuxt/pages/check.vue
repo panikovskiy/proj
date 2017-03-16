@@ -1,25 +1,22 @@
 <template>
-  <div>
-
+  <section class="section">
     <div class="notification is-success" v-if="message">
-      {{ message }}. Перейти к <nuxt-link to="/login" class="is-link is-success is-paddingless">авторизации</nuxt-link>
+      {{ message }}
     </div>
-
     <div class="notification is-danger" v-if="error">
       {{ error }}
     </div>
-
-  </div>
+  </section>
 </template>
 
 <script>
-  import axios from '~plugins/axios'
+  import '~plugins/axios'
   export default {
     created () {
-      axios.post('auth/check', {key: this.$route.query.key, email: this.$route.query.email})
-        .then(response => {
-          this.message = response.data.message
-          this.$store.dispatch('setKey', {serverKey: response.data.server_key})
+      this.$axios.post('auth/check', {key: this.$route.query.key, email: this.$route.query.email})
+        .then(({ data }) => {
+          this.message = data.message
+          this.$store.dispatch('auth/setKey', {serverKey: data.server_key, user: data.user})
         })
         .catch((error) => {
           this.error = error.response.data.error
