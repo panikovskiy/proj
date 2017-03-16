@@ -1,0 +1,2 @@
+## lar - Laravel
+## simnuxt - Nuxt
