@@ -24,7 +24,7 @@ class NewsController extends Controller
     {
         foreach ($news as $key => $value) {
             $value->keywords = $this->parseKeywords($value->keywords);
-            $value->content = preg_replace('(\<(\/?[^>]+)>)', '', substr($value->content, 0, 200)); 
+            $value->content = str_limit(preg_replace('(\<(\/?[^>]+)>)', '', $value->content), 200);
         }
         return $news;        
     }

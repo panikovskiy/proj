@@ -18,9 +18,11 @@ class News extends Model
         $patt = '/\d+$/';
         $slret = preg_replace($patt, '', $slug);
         if (strlen($slret) == 0) $slret = $slug;
-        $dop = '';
-        if (isset($id)) $dop = ' and id != ' . $id;
-        $slugs = self::select('slug')->whereRaw('slug like \'' . $slret . '%\'' . $dop)->get()->toArray();
+        $slugs = self::select('slug')->where('slug', 'like', "{$slret}%")
+            ->when($id, function ($query) use ($id) {
+                return $query->where('id', '!=', $id);
+            })
+            ->get()->toArray();
         if (!empty($slugs)) {
             $arrs = [];
             foreach ($slugs as $sl) {
