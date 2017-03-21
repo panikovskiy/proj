@@ -1,2 +1,2 @@
 ## lar - Laravel
-## simnuxt - Nuxt
+## simnuxt - Nuxt.js

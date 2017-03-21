@@ -1,6 +1,6 @@
 # simnuxt
 
-> onlinesim project
+> Nuxt.js project
 
 ## Build Setup
 
