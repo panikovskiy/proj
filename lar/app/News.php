@@ -37,7 +37,7 @@ class News extends Model
     public function setPublicAttribute($value)
     {
         $pub = 0;
-        if ($value || $value == 'true') $pub = 1;
+        if ($value && $value == 'true') $pub = 1;
         $this->attributes['public'] = $pub;
     }
 }

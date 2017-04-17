@@ -9,6 +9,7 @@
         "alexusmai/ruslug": "^0.5.0",
         "barryvdh/laravel-cors": "^0.8.6",
         "doctrine/dbal": "^2.5",
+        "laravel/dusk": "^1.0",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0"
     },
